@@ -1,47 +1,45 @@
+library(phytools)# set working directory
+print(getwd())
 
-library(phytools)
-# set working directory
-setwd("C:/Users/megan.watts/Downloads")
+setwd("C:/Users/DJSau/weapons_and_ornaments/correct_names")
 
-# read in the tree block
-tree <- read.nexus("C:/Users/megan.watts/Downloads/S16381.nex") 
-as.phylo(tree) # shouldn't be needed, but if it is, this get the tree in the right data format
+# davenwk < -read.newick('4_w_lizard.nwk')# class(davenwk)# plot.phylo(davenwk)
 
-# read in the data.
-data <- read.csv("C:/Users/megan.watts/Downloads/6_o_spider.csv", header = T, fileEncoding="UTF-8-BOM")
+# davecsv < -read.csv('4_w_lizard.csv')# class(davecsv)# View(davecsv)
 
-#plotTree(root(rf.tree,outgroup=c("Pelicaniformes"),resolve.root=TRUE))
-#remove species with incomplete data on the traits of interest - these wont be analysed
-#data <- data[complete.cases(data$MDS, data$FDS),]
+############################################################### https: //stackoverflow.com/questions/9564489/read-all-files-in-a-folder-and-apply-a-function-to-each-data-frame
 
-# work out what data isn't in the phylogeny and add this as a column on the spreadsheet
-#data$not_in_phy <- as.numeric(is.na(-match(data$species, tree$tip.label)))
-#write.csv(data, "C:/Users/willa/Dropbox/Weapons and Ornaments Megan/Tidy Data/Weapons/Galliformes/Sullivan_93_tidy.csv")
+    #Get the filepath of all csv 's in current dir
+csv_files <- list.files(".", pattern = "*.csv")
+list(csv_files)
+all_files <- list.files(".")
+list(all_files)
 
-#can also list these species in R
-sp_in_data_not_tree <- setdiff(data$species,tree$tip.label)
-sort(sp_in_data_not_tree)
+not_csv_files = setdiff(all_files, csv_files)
+list(not_csv_files)
+length(not_csv_files)
 
-#the list of species that are in the phylogeny but not the data might also help match some of the missing ones up.
-sp_in_tree_not_data <- setdiff(tree$tip.label,data$species)
-sort(sp_in_tree_not_data)
+length(csv_files)
 
-#trying to make matches I find is often a mnual process of using online taxonomies and searching for species names to find updates and synonyms. 
-#taxize can sometimes help though
-library(taxize)
+for (i in 1: length(csv_files)) {
+    print(i)
+    print(csv_files[i])
+    View(read.csv(csv_files[i], fileEncoding = "UTF-8-BOM"))
 
-temp <- gnr_resolve(names = sp_in_tree_not_data)
-View(temp)
-#look through 'temp' to help find any errors. in this example you can see there is a typo in "Tetraogallus_capius" - it sould be "	Tetraogallus_caspius"
+    print(not_csv_files[i])
+
+    # If statement
+    # if filename contains nex read in as a nexus file#
+    # if filename contains tree read in as a tree file
+    # otherwise read in as newick file
 
 
-#when you are happy that as many matches as possible have been made you can prune the tree to the data and the data to the the tree
-#prune the trees to the data
-pruned_tree <- drop.tip(tree, setdiff(tree$tip.label, data$species))
+    if (grepl(not_csv_files[i], ".nex", fixed = TRUE)) {
+        plot.phylo(read.nexus(not_csv_files[i]))
+    } else if ( grepl(not_csv_files[i], ".tree", fixed = TRUE)) {
+        plot.phylo(read.tree(not_csv_files[i]))
+    } else {
+        plot.phylo(read.newick(not_csv_files[i]))
+    }
 
-#prune the data to the trees
-pruned_data <- data[match(data$species, pruned_tree$tip.label),]
-pruned_data <- pruned_data[complete.cases(pruned_data$maleUCH, pruned_data$femaleUCH),]
-
-#save as csv
-write.csv(pruned_data, "C:/Users/megan.watts/Downloads/carnivore_data_pruned.csv")
+}
