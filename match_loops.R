@@ -1,10 +1,13 @@
 library(phytools)
 
-setwd("C:/Users/megan.watts/weapons_and_ornaments/correct_names")
+#Dropbox wd
+setwd("C:/Users/megan.watts/Dropbox/Weapons and Ornaments/Tidy Data/Correct names")
+#github wd
+#setwd("C:/Users/megan.watts/weapons_and_ornaments/correct_names")
 
-# tree < -read.newick('4_w_lizard.nwk')# class(davenwk)# plot.phylo(tree)
+# tree < -read.newick('4_w_lizard.nwk')# class(tree)# plot.phylo(tree)
 
-# data < -read.csv('4_w_lizard.csv')# class(davecsv)# View(data)
+# data < -read.csv('4_w_lizard.csv')# class(data)# View(data)
 
 ############################################################### https: //stackoverflow.com/questions/9564489/read-all-files-in-a-folder-and-apply-a-function-to-each-data-frame
 

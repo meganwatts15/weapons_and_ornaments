@@ -7,6 +7,38 @@ setwd("C:/Users/megan.watts/Downloads")
 tree <- read.nexus("C:/Users/megan.watts/Downloads/S16381.nex") 
 as.phylo(tree) # shouldn't be needed, but if it is, this get the tree in the right data format
 
+#multiphylo tree
+tree <- read.nexus("HackettStage1Full.nex") 
+as.multiPhylo(tree)
+rf.tree<-averageTree(tree,method="symmetric.difference")
+#output
+#Function is attempting to find the phylogeny with 
+#minimum distance to all trees in set under the 
+#"symmetric difference" criterion...
+
+#Best SS so far = 14939556
+#Best SS so far = 14499312
+#Best SS so far = 14112444
+#Best SS so far = 13742452
+#Best SS so far = 13377148
+#Best SS so far = 13021528
+#Best SS so far = 12758604
+#Best SS so far = 12607920
+#Best SS so far = 12458040
+#Best SS so far = 12311232
+#Best SS so far = 11790252
+#Best SS so far = 11287128
+#Best SS so far = 11102196
+#Best SS so far = 10988900
+#Best SS so far = 10959440
+#Best SS so far = 10959440
+
+#Solution found after 16 set of nearest neighbor interchanges.
+
+#There were 50 or more warnings (use warnings() to see the first 50)
+
+plotTree(root(rf.tree,outgroup=c("Pelicaniformes"),resolve.root=TRUE))
+
 # read in the data.
 data <- read.csv("C:/Users/megan.watts/Downloads/6_o_spider.csv", header = T, fileEncoding="UTF-8-BOM")
 
